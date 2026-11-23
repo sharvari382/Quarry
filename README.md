@@ -36,13 +36,12 @@ can **export the whole analysis as a report**.
 > **The model never does arithmetic itself. Every number in an answer comes from a real query result.**
 
 ---
-
+https://github.com/user-attachments/assets/f4d6d6b6-6c24-4ba2-9d18-8407ddd96c9b
 ## 🎬 Demo & Screenshots
 
 > [!NOTE]
 > 🎥 **Demo videos**
 > - **[30-second demo](docs/demo-30s.mp4)**: the key features at a glance (submission length).
-> - **[Full walkthrough, about 1.5 min](docs/demo.mp4)**: login, multi-file upload, plain-English questions,
 >   insights and reasoning, charts, follow-up context, forecasting, generated SQL, report export,
 >   data quality, **anomaly detection with explanations**, and multi-file joins.
 

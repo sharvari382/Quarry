@@ -1,0 +1,26 @@
+# Runtime dependencies (pinned; versions the test suite was run against)
+fastapi==0.162.2
+uvicorn[standard]==0.54.0
+gunicorn==26.2.0
+pydantic==2.13.5
+pydantic-settings==2.16.2
+email-validator==2.3.0
+python-multipart==0.0.32
+
+sqlalchemy==2.1.8
+alembic==1.20.1
+psycopg[binary]==3.3.8
+redis==8.1.0
+
+duckdb==2.0.0
+pandas==3.0.5
+numpy==2.5.3
+pyarrow==26.0.1
+
+argon2-cffi==25.1.0
+PyJWT==2.15.0
+cryptography==50.0.1
+
+anthropic==2.6.0
+openai==3.46.0
+prometheus-client==0.26.0

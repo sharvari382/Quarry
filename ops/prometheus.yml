@@ -1,0 +1,11 @@
+# Scrapes every API replica (DNS service discovery finds all of them).
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: quarry-api
+    dns_sd_configs:
+      - names: [api]
+        type: A
+        port: 8000
+    metrics_path: /metrics

@@ -1,0 +1,26 @@
+[project]
+name = "quarry-backend"
+version = "1.0.0"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM"]
+ignore = [
+  "S101",  # assert is fine in tests
+  "S608",  # SQL built from validated identifiers / guarded user SQL by design (see sql_guard.py)
+  "B008",  # FastAPI Depends() in defaults is the idiom
+  "S105", "S106",  # token/cookie *names* are not secrets
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "B", "E501", "SIM"]
+"scripts/**" = ["S311"]
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["app/services/llm/anthropic_client.py", "app/services/llm/openai_client.py"]

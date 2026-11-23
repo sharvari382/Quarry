@@ -40,6 +40,16 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     needs: [backend, frontend]
+    # Job-level env: every `docker compose` command (including the log dump that runs
+    # after a failure) needs these, because docker-compose.yml marks them as required.
+    env:
+      POSTGRES_PASSWORD: ci-postgres-pass
+      REDIS_PASSWORD: ci-redis-pass
+      JWT_SECRET: ci-jwt-secret-ci-jwt-secret-ci-jwt-secret-0123456789
+      DATA_ENCRYPTION_KEYS: ${{ secrets.CI_FERNET_KEY || 'cXVhcnJ5LWNpLWtleS0zMi1ieXRlcy1sb25nLW9rISE=' }}
+      LLM_PROVIDER: openai
+      OPENAI_API_KEY: not-used-in-smoke-test
+      COOKIE_SECURE: "true"
     steps:
       - uses: actions/checkout@v4
       - name: Build images
@@ -47,19 +57,24 @@ jobs:
           docker build -t quarry-api ./backend
           docker build -f frontend/Dockerfile -t quarry-web .
       - name: Smoke test the stack
-        env:
-          POSTGRES_PASSWORD: ci-postgres-pass
-          REDIS_PASSWORD: ci-redis-pass
-          JWT_SECRET: ci-jwt-secret-ci-jwt-secret-ci-jwt-secret-0123456789
-          DATA_ENCRYPTION_KEYS: ${{ secrets.CI_FERNET_KEY || 'cXVhcnJ5LWNpLWtleS0zMi1ieXRlcy1sb25nLW9rISE=' }}
-          LLM_PROVIDER: openai
-          OPENAI_API_KEY: not-used-in-smoke-test
-          COOKIE_SECURE: "true"
+        # Poll instead of `up --wait`: the one-shot `migrate` service exits by design, which
+        # some Compose versions report as a failure under --wait.
         run: |
-          docker compose up -d --wait --wait-timeout 180
-          curl -fsS http://localhost:8080/nginx-health
-          curl -fsS -o /dev/null -w "%{http_code}\n" http://localhost:8080/
-          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/api/datasets)" = "401"
-          docker compose ps
-      - if: always()
-        run: docker compose logs --tail=100
+          docker compose up -d
+          ok=0
+          for i in $(seq 1 60); do
+            if curl -fsS http://localhost:8080/nginx-health >/dev/null 2>&1 &&
+               [ "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/api/datasets)" = "401" ]; then
+              ok=1; break
+            fi
+            sleep 3
+          done
+          test "$ok" = 1 || { echo "stack did not become ready in 180s"; exit 1; }
+          test "$(docker inspect -f '{{.State.ExitCode}}' "$(docker compose ps -aq migrate)")" = "0"
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/)" = "200"
+          echo "smoke test passed"
+      - name: Show stack status and logs
+        if: always()
+        run: |
+          docker compose ps -a
+          docker compose logs --tail=100

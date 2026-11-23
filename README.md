@@ -36,14 +36,15 @@ can **export the whole analysis as a report**.
 > **The model never does arithmetic itself. Every number in an answer comes from a real query result.**
 
 ---
-https://github.com/user-attachments/assets/f4d6d6b6-6c24-4ba2-9d18-8407ddd96c9b
+
 ## 🎬 Demo & Screenshots
 
+https://github.com/user-attachments/assets/f4d6d6b6-6c24-4ba2-9d18-8407ddd96c9b
+
 > [!NOTE]
-> 🎥 **Demo videos**
-> - **[30-second demo](docs/demo-30s.mp4)**: the key features at a glance (submission length).
->   insights and reasoning, charts, follow-up context, forecasting, generated SQL, report export,
->   data quality, **anomaly detection with explanations**, and multi-file joins.
+> 🎥 **30-second demo:** multi-file upload, plain-English questions with insights and reasoning, charts,
+> follow-up context, forecasting, generated SQL, **anomaly detection with explanations**, data quality
+> and multi-file joins. Also available as a file: [`docs/demo-30s.mp4`](docs/demo-30s.mp4).
 
 | **Answer with chart** | **The working behind it** |
 |:---:|:---:|
@@ -119,7 +120,7 @@ https://github.com/user-attachments/assets/f4d6d6b6-6c24-4ba2-9d18-8407ddd96c9b
 | **README with setup instructions** | ✅ | [Quick Start](#-quick-start-with-docker-recommended) |
 | **Architecture diagram** | ✅ | [Architecture](#-architecture) + [`docs/architecture.md`](docs/architecture.md) |
 | **Screenshots** | ✅ | [`docs/screenshots/`](docs/screenshots/) |
-| **Demo video (10–30 s) or live link** | ✅ | [`docs/demo-30s.mp4`](docs/demo-30s.mp4) (+ full walkthrough [`docs/demo.mp4`](docs/demo.mp4)) |
+| **Demo video (10–30 s) or live link** | ✅ | Embedded at the top of this README + [`docs/demo-30s.mp4`](docs/demo-30s.mp4) |
 | **Docker support** | ✅ | `docker-compose.yml`, `backend/Dockerfile`, `frontend/Dockerfile` |
 | **Sample dataset(s)** | ✅ | [`sample_data/`](sample_data/) |
 | **Assumptions / implementation notes** | ✅ | [Assumptions](#-assumptions-and-implementation-notes) |
